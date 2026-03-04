@@ -35,7 +35,7 @@ export default function About() {
             We regularly host free workshops at libraries, senior centers, and community spaces in the Shrewsbury, MA area. Check our website for upcoming events!
           </p>
           <a
-            href="https://www.techawarenessassociation.org"
+            href="https://www.techawarenessma.com"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-sunshine text-ink px-10 py-5 font-black text-lg uppercase tracking-wider border-4 border-navy hover:shadow-[4px_4px_0px_0px_#2C3E50] transition-all min-h-12"
@@ -49,12 +49,12 @@ export default function About() {
           <p className="text-lg text-ink leading-relaxed">
             Have questions, feedback, or want to volunteer? Visit{' '}
             <a
-              href="https://www.techawarenessassociation.org"
+              href="https://www.techawarenessma.com"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sky underline font-bold"
             >
-              techawarenessassociation.org
+              techawarenessma.com
             </a>{' '}
             to learn more and connect with us.
           </p>
