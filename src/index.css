@@ -33,6 +33,32 @@ html.text-enlarged body {
   outline-offset: 2px;
 }
 
+/* High contrast mode */
+html.high-contrast {
+  --color-cream: #ffffff;
+  --color-navy: #000000;
+  --color-ink: #000000;
+  --color-slate: #333333;
+  --color-sunshine: #ffdd00;
+  --color-sky: #0057cc;
+}
+
+html.high-contrast body {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+html.high-contrast .bg-cream { background-color: #ffffff !important; }
+html.high-contrast .bg-navy { background-color: #000000 !important; }
+html.high-contrast .text-navy { color: #000000 !important; }
+html.high-contrast .text-slate { color: #333333 !important; }
+html.high-contrast .border-navy { border-color: #000000 !important; }
+html.high-contrast .text-sky { color: #0057cc !important; }
+html.high-contrast .bg-sky { background-color: #0057cc !important; }
+html.high-contrast .bg-sunshine { background-color: #ffdd00 !important; }
+html.high-contrast a { text-decoration: underline; }
+html.high-contrast button { border-width: 3px !important; }
+
 /* Print stylesheet */
 @media print {
   nav, .no-print, .bottom-nav, .text-size-toggle {

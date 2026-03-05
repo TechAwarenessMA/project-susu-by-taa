@@ -12,7 +12,7 @@ export default function About() {
         <section className="bg-white border-4 border-navy p-8 shadow-[8px_8px_0px_0px_#FAC206]">
           <h2 className="text-2xl font-black text-navy mb-4 uppercase tracking-tight">What is TAA?</h2>
           <p className="text-lg text-ink leading-relaxed mb-4">
-            Tech Awareness Association (TAA) is a student-founded nonprofit based in Shrewsbury, Massachusetts. We believe that everyone — regardless of age or experience — deserves access to technology and the knowledge to use it confidently.
+            Tech Awareness Association (TAA) is a student-founded Organization based in Shrewsbury, Massachusetts. We believe that everyone — regardless of age or experience — deserves access to technology and the knowledge to use it confidently.
           </p>
           <p className="text-lg text-ink leading-relaxed">
             Our volunteers teach device repair, host tech literacy workshops, and work to reduce electronic waste in our community. We started because we saw our grandparents and neighbors struggling with technology and knew we could help.

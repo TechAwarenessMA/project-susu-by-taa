@@ -6,7 +6,12 @@ function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
-      return JSON.parse(raw);
+      const parsed = JSON.parse(raw);
+      // Migrate old state that doesn't have bookmarkedLessons
+      if (!parsed.bookmarkedLessons) {
+        parsed.bookmarkedLessons = [];
+      }
+      return parsed;
     }
   } catch {
     // corrupted state — start fresh
@@ -14,6 +19,7 @@ function loadState() {
   return {
     selectedLevel: null,
     completedLessons: [],
+    bookmarkedLessons: [],
     lastVisited: null,
   };
 }
@@ -64,6 +70,22 @@ export function useProgress() {
     return Math.round((completed / topicLessons.length) * 100);
   }, [state.completedLessons]);
 
+  const toggleBookmark = useCallback((lessonId) => {
+    setState(prev => {
+      const isBookmarked = prev.bookmarkedLessons.includes(lessonId);
+      return {
+        ...prev,
+        bookmarkedLessons: isBookmarked
+          ? prev.bookmarkedLessons.filter(id => id !== lessonId)
+          : [...prev.bookmarkedLessons, lessonId],
+      };
+    });
+  }, []);
+
+  const isBookmarked = useCallback((lessonId) => {
+    return state.bookmarkedLessons.includes(lessonId);
+  }, [state.bookmarkedLessons]);
+
   const setLastVisited = useCallback((path) => {
     setState(prev => ({ ...prev, lastVisited: path }));
   }, []);
@@ -72,6 +94,7 @@ export function useProgress() {
     setState({
       selectedLevel: null,
       completedLessons: [],
+      bookmarkedLessons: [],
       lastVisited: null,
     });
   }, []);
@@ -79,12 +102,15 @@ export function useProgress() {
   return {
     selectedLevel: state.selectedLevel,
     completedLessons: state.completedLessons,
+    bookmarkedLessons: state.bookmarkedLessons,
     lastVisited: state.lastVisited,
     setLevel,
     completeLesson,
     uncompleteLesson,
     isLessonComplete,
     getTopicProgress,
+    toggleBookmark,
+    isBookmarked,
     setLastVisited,
     resetProgress,
   };

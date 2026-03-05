@@ -1,13 +1,24 @@
 import { useState } from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
 import { getLessonById, getTopicById } from '../data/content';
+import { getQuizForLesson } from '../data/quizzes';
 import StepList from '../components/StepList';
 import CompletionBanner from '../components/CompletionBanner';
+import Quiz from '../components/Quiz';
 
-export default function Lesson({ isLessonComplete, completeLesson, uncompleteLesson }) {
+function BookmarkIcon({ filled }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z" />
+    </svg>
+  );
+}
+
+export default function Lesson({ isLessonComplete, completeLesson, uncompleteLesson, isBookmarked, toggleBookmark }) {
   const { id } = useParams();
   const lesson = getLessonById(id);
   const [completedSteps, setCompletedSteps] = useState([]);
+  const [showQuiz, setShowQuiz] = useState(false);
 
   if (!lesson) {
     return <Navigate to="/topics" replace />;
@@ -15,6 +26,8 @@ export default function Lesson({ isLessonComplete, completeLesson, uncompleteLes
 
   const topic = getTopicById(lesson.topicId);
   const isComplete = isLessonComplete(lesson.id);
+  const bookmarked = isBookmarked ? isBookmarked(lesson.id) : false;
+  const quiz = getQuizForLesson(lesson.id);
 
   function handleToggleStep(stepNumber) {
     setCompletedSteps(prev =>
@@ -30,16 +43,32 @@ export default function Lesson({ isLessonComplete, completeLesson, uncompleteLes
 
   return (
     <div>
-      {/* Back link */}
-      <Link
-        to={`/topics/${lesson.topicId}`}
-        className="inline-flex items-center gap-2 text-navy text-sm font-black uppercase tracking-wider mb-6 hover:text-sky hover:gap-3 transition-all"
-      >
-        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M15 10H5M5 10L10 5M5 10L10 15" />
-        </svg>
-        Back
-      </Link>
+      {/* Back link + Bookmark */}
+      <div className="flex items-center justify-between mb-6">
+        <Link
+          to={`/topics/${lesson.topicId}`}
+          className="inline-flex items-center gap-2 text-navy text-sm font-black uppercase tracking-wider hover:text-sky hover:gap-3 transition-all"
+        >
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M15 10H5M5 10L10 5M5 10L10 15" />
+          </svg>
+          Back
+        </Link>
+        {toggleBookmark && (
+          <button
+            onClick={() => toggleBookmark(lesson.id)}
+            className={`flex items-center gap-2 px-4 py-2 border-4 border-navy font-black text-sm uppercase tracking-wider transition-colors min-h-12 no-print ${
+              bookmarked
+                ? 'bg-sunshine text-ink'
+                : 'bg-white text-navy hover:bg-sunshine hover:text-ink'
+            }`}
+            aria-label={bookmarked ? 'Remove bookmark' : 'Save this lesson'}
+          >
+            <BookmarkIcon filled={bookmarked} />
+            {bookmarked ? 'Saved' : 'Save'}
+          </button>
+        )}
+      </div>
 
       {/* Breadcrumb */}
       <div className="inline-block px-4 py-2 bg-navy text-white font-black text-xs uppercase tracking-wider mb-6">
@@ -93,7 +122,30 @@ export default function Lesson({ isLessonComplete, completeLesson, uncompleteLes
         <p className="text-lg text-ink leading-relaxed">{lesson.tryItYourself}</p>
       </section>
 
-      {/* 6. Completion Banner */}
+      {/* 6. Knowledge Check Quiz */}
+      {quiz && (
+        <div className="no-print">
+          {!showQuiz ? (
+            <section className="bg-white border-4 border-navy p-6 mb-8 text-center">
+              <div className="text-4xl mb-3">🧠</div>
+              <h2 className="text-xl font-black text-navy uppercase tracking-tight mb-2">Knowledge Check</h2>
+              <p className="text-lg text-slate font-bold mb-6">
+                Ready to test what you&apos;ve learned? Just {quiz.questions.length} quick questions!
+              </p>
+              <button
+                onClick={() => setShowQuiz(true)}
+                className="px-8 py-4 border-4 border-navy bg-navy text-white font-black uppercase tracking-wider hover:bg-ink transition-colors min-h-12"
+              >
+                Start Quiz →
+              </button>
+            </section>
+          ) : (
+            <Quiz quiz={quiz} lessonTitle={lesson.title} />
+          )}
+        </div>
+      )}
+
+      {/* 7. Completion Banner */}
       <section className="mb-8">
         <CompletionBanner
           isComplete={isComplete}
@@ -102,7 +154,7 @@ export default function Lesson({ isLessonComplete, completeLesson, uncompleteLes
         />
       </section>
 
-      {/* 7. Need More Help */}
+      {/* 8. Need More Help */}
       <section className="bg-white border-4 border-navy p-6 text-center">
         <h2 className="text-xl font-black text-navy uppercase tracking-tight mb-4">Need More Help?</h2>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

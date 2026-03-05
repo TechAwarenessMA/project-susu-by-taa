@@ -8,16 +8,21 @@ import Lesson from './pages/Lesson';
 import Progress from './pages/Progress';
 import About from './pages/About';
 import Glossary from './pages/Glossary';
+import Search from './pages/Search';
+import Bookmarks from './pages/Bookmarks';
 
 export default function App() {
   const {
     selectedLevel,
     completedLessons,
+    bookmarkedLessons,
     setLevel,
     completeLesson,
     uncompleteLesson,
     isLessonComplete,
     getTopicProgress,
+    toggleBookmark,
+    isBookmarked,
   } = useProgress();
 
   return (
@@ -57,6 +62,8 @@ export default function App() {
               isLessonComplete={isLessonComplete}
               completeLesson={completeLesson}
               uncompleteLesson={uncompleteLesson}
+              isBookmarked={isBookmarked}
+              toggleBookmark={toggleBookmark}
             />
           }
         />
@@ -72,6 +79,17 @@ export default function App() {
         />
         <Route path="/about" element={<About />} />
         <Route path="/glossary" element={<Glossary />} />
+        <Route path="/search" element={<Search />} />
+        <Route
+          path="/bookmarks"
+          element={
+            <Bookmarks
+              bookmarkedLessons={bookmarkedLessons}
+              isLessonComplete={isLessonComplete}
+              toggleBookmark={toggleBookmark}
+            />
+          }
+        />
       </Routes>
     </Layout>
   );
