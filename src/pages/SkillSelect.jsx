@@ -118,7 +118,7 @@ export default function SkillSelect({ selectedLevel, onSetLevel }) {
               style={{ fontSize: 'clamp(4.5rem, 9vw, 8rem)' }}>SUSU</h1>
             <div className="w-20 h-1.5 bg-sunshine mb-6 animate-fade-in-up delay-150" />
             <p className="text-lg lg:text-xl text-white/75 font-bold leading-relaxed max-w-xs animate-fade-in-up delay-225">
-              Learn technology at your own pace — clear, simple, and completely free.
+              Learn technology at your own pace: Seniors Understanding Smart Use
             </p>
           </div>
 
