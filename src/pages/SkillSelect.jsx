@@ -134,7 +134,7 @@ export default function SkillSelect({ selectedLevel, onSetLevel }) {
           <div className="relative z-10 animate-fade-in delay-600">
             <p className="text-xs text-white/35 font-bold uppercase tracking-wider leading-relaxed">
               A free project by{' '}
-              <a href="https://www.techawarenessassociation.org" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.techawarenessma.org" target="_blank" rel="noopener noreferrer"
                 className="text-sunshine/60 hover:text-sunshine transition-colors underline">
                 Tech Awareness Association
               </a>
